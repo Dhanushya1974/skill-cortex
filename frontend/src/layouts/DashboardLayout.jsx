@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
+import AiAssistant from "../components/AiAssistant"
 import Logo from "../components/Logo"
 import { useAuth } from "../context/AuthContext"
 
@@ -14,6 +15,7 @@ export default function DashboardLayout({ title, navItems, children }) {
 
   return (
     <div className="flex min-h-screen bg-surface">
+      <AiAssistant />
       <aside className="hidden w-64 flex-col border-r border-black/5 bg-white md:flex">
         <div className="border-b border-black/5 px-6 py-5">
           <Link to="/">

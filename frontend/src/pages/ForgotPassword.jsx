@@ -6,6 +6,7 @@ import { api } from "../services/api"
 export default function ForgotPassword() {
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
+  const [devResetLink, setDevResetLink] = useState("")
   const [submitting, setSubmitting] = useState(false)
 
   async function handleSubmit(e) {
@@ -14,6 +15,7 @@ export default function ForgotPassword() {
     try {
       const res = await api.forgotPassword(email)
       setMessage(res.message)
+      setDevResetLink(res.reset_link ?? "")
     } catch (err) {
       setMessage(err.message)
     } finally {
@@ -29,7 +31,17 @@ export default function ForgotPassword() {
         <p className="mt-1 text-sm text-ink/60">Enter your account email and we'll send you a reset link.</p>
 
         {message ? (
-          <p className="mt-8 rounded-lg bg-primary/10 px-3 py-2 text-sm text-primary">{message}</p>
+          <div className="mt-8 space-y-3">
+            <p className="rounded-lg bg-primary/10 px-3 py-2 text-sm text-primary">{message}</p>
+            {devResetLink && (
+              <div className="rounded-lg border border-dashed border-primary/40 bg-primary/5 px-3 py-2 text-sm">
+                <p className="font-semibold text-ink/70">Dev mode: no SMTP configured, so here's your link directly</p>
+                <a href={devResetLink} className="mt-1 block break-all text-primary underline">
+                  {devResetLink}
+                </a>
+              </div>
+            )}
+          </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             <div>

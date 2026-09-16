@@ -23,21 +23,23 @@ export default function Landing() {
         <div className="absolute inset-0 bg-gradient-to-br from-ink via-ink/95 to-primary/30" />
         <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 py-24">
           <span className="rounded-full bg-primary/20 px-4 py-1 text-sm font-semibold text-primary">
-            Webinars · Payments · Reminders
+            Your journey into tech industry starts here
           </span>
           <h1 className="max-w-2xl text-4xl font-bold leading-tight md:text-5xl">
-            Your journey into tech <span className="text-primary">starts here</span>
+            Empower your career with <span className="text-primary">industry-aligned tech solutions</span> &
+            real-world experience.
           </h1>
           <p className="max-w-xl text-lg text-white/70">
-            Pick your department, book a live webinar slot, pay securely with Razorpay,
-            and get automatic reminders so you never miss a session.
+            We deliver IT services, digital product operations, and project-based learning solutions that
+            empower individuals to gain real industry exposure and create meaningful impact in the tech
+            sector.
           </p>
           <div className="flex gap-4">
             <Link
               to="/dashboard"
               className="rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-primary-dark"
             >
-              Explore Webinars
+              Explore Services & Internships
             </Link>
             <a
               href="#departments"

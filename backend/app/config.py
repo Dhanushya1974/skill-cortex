@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     SMTP_FROM: str = "Skill Cortex <no-reply@skillcortex.com>"
     SMTP_USE_TLS: bool = True
     FRONTEND_URL: str = "http://localhost:5173"
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-3.6-flash"
 
     model_config = SettingsConfigDict(env_file=".env")
 

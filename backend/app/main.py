@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routes import auth, bookings, departments, health, notifications, payments, reminders, slots, users, webinars
+from app.routes import assistant, auth, bookings, departments, health, notifications, payments, reminders, slots, users, webinars
 from app.scheduler.reminder_scheduler import run_reminder_check
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s [%(name)s] %(message)s")
@@ -42,3 +42,4 @@ app.include_router(payments.router)
 app.include_router(notifications.router)
 app.include_router(reminders.router)
 app.include_router(users.router)
+app.include_router(assistant.router)

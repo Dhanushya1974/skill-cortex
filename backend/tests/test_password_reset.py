@@ -24,13 +24,25 @@ def _extract_token(caplog):
     raise AssertionError("reset link was not logged")
 
 
-def test_forgot_password_does_not_leak_whether_email_exists(client, department):
+def test_forgot_password_does_not_leak_whether_email_exists_in_production(client, department, monkeypatch):
+    monkeypatch.setattr("app.routes.auth.settings.ENV", "production")
     _register(client, department)
     resp_known = client.post("/auth/forgot-password", json={"email": "reset@example.com"})
     resp_unknown = client.post("/auth/forgot-password", json={"email": "nosuchuser@example.com"})
     assert resp_known.status_code == 200
     assert resp_unknown.status_code == 200
     assert resp_known.json() == resp_unknown.json()
+
+
+def test_forgot_password_dev_mode_surfaces_reset_link_for_known_email_only(client, department):
+    # Outside production, with no SMTP configured, the link is echoed back so the
+    # flow is usable without real email delivery. This intentionally trades away
+    # the anti-enumeration guarantee for local/dev convenience.
+    _register(client, department)
+    resp_known = client.post("/auth/forgot-password", json={"email": "reset@example.com"})
+    resp_unknown = client.post("/auth/forgot-password", json={"email": "nosuchuser@example.com"})
+    assert "reset_link" in resp_known.json()
+    assert "reset_link" not in resp_unknown.json()
 
 
 def test_reset_password_with_valid_token_updates_password(client, department, caplog):

@@ -14,6 +14,7 @@ const backendPaths = [
   '/notifications',
   '/reminders',
   '/users',
+  '/assistant',
 ]
 
 // https://vite.dev/config/

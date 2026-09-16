@@ -102,6 +102,11 @@ def forgot_password(payload: ForgotPasswordRequest, db: Session = Depends(get_db
     )
     if not sent:
         logger.info("[password reset link, not emailed] user=%s link=%s", user.email, reset_link)
+        if settings.ENV != "production":
+            # No SMTP configured (or delivery failed) — surface the link directly so
+            # the reset flow is still usable in local/dev environments. Never do this
+            # in production: it would let anyone reset any account's password.
+            generic_response["reset_link"] = reset_link
 
     return generic_response
 

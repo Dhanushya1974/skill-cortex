@@ -47,4 +47,6 @@ export const api = {
   listNotifications: (token) => request("/notifications", { token }),
   runReminders: (token) => request("/reminders/run", { method: "POST", token }),
   listUsers: (token) => request("/users", { token }),
+  chatWithAssistant: (message, history, token) =>
+    request("/assistant/chat", { method: "POST", body: { message, history }, token }),
 }
