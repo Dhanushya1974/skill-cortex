@@ -43,7 +43,12 @@ export default function AdminDashboard() {
     ]).finally(() => setLoading(false))
   }, [token])
 
-  const departmentName = (id) => departments.find((d) => d.id === id)?.name ?? "—"
+  const departmentLabel = (u) => {
+    const dept = departments.find((d) => d.id === u.department_id)
+    if (!dept) return "—"
+    if (dept.name === "Other" && u.department_other) return `Other: ${u.department_other}`
+    return dept.name
+  }
 
   async function handleRunReminders() {
     setReminderMessage("Checking...")
@@ -114,7 +119,7 @@ export default function AdminDashboard() {
                     <td className="px-5 py-4 font-medium text-ink">{u.name}</td>
                     <td className="px-5 py-4 text-ink/70">{u.email}</td>
                     <td className="px-5 py-4 text-ink/50">{u.phone}</td>
-                    <td className="px-5 py-4 text-ink/70">{departmentName(u.department_id)}</td>
+                    <td className="px-5 py-4 text-ink/70">{departmentLabel(u)}</td>
                     <td className="px-5 py-4 text-ink/70">{u.role}</td>
                   </tr>
                 ))}

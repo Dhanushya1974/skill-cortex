@@ -7,6 +7,7 @@ class UserCreate(BaseModel):
     phone: str = Field(min_length=7, max_length=20)
     password: str = Field(min_length=8, max_length=128)
     department_id: int
+    department_other: str | None = Field(default=None, max_length=255)
 
 
 class UserOut(BaseModel):
@@ -17,6 +18,7 @@ class UserOut(BaseModel):
     email: EmailStr
     phone: str | None
     department_id: int
+    department_other: str | None
     role: str
 
 

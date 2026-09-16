@@ -42,12 +42,17 @@ def register(payload: UserCreate, db: Session = Depends(get_db)):
     if not department:
         raise HTTPException(status_code=400, detail="Invalid department")
 
+    department_other = payload.department_other.strip() if payload.department_other else None
+    if department.name == "Other" and not department_other:
+        raise HTTPException(status_code=400, detail="Please specify your department")
+
     user = User(
         name=payload.name,
         email=payload.email,
         phone=payload.phone,
         password_hash=hash_password(payload.password),
         department_id=payload.department_id,
+        department_other=department_other if department.name == "Other" else None,
     )
     db.add(user)
     db.commit()

@@ -8,9 +8,12 @@ export default function Register() {
   const { register } = useAuth()
   const navigate = useNavigate()
   const [departments, setDepartments] = useState([])
-  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", department_id: "" })
+  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", department_id: "", department_other: "" })
   const [error, setError] = useState("")
   const [submitting, setSubmitting] = useState(false)
+
+  const selectedDepartment = departments.find((d) => String(d.id) === String(form.department_id))
+  const isOtherSelected = selectedDepartment?.name === "Other"
 
   useEffect(() => {
     api
@@ -27,7 +30,11 @@ export default function Register() {
     setError("")
     setSubmitting(true)
     try {
-      const user = await register({ ...form, department_id: Number(form.department_id) })
+      const user = await register({
+        ...form,
+        department_id: Number(form.department_id),
+        department_other: isOtherSelected ? form.department_other.trim() : null,
+      })
       navigate(user.role === "admin" ? "/admin" : "/dashboard")
     } catch (err) {
       setError(err.message)
@@ -88,6 +95,18 @@ export default function Register() {
               ))}
             </select>
           </div>
+          {isOtherSelected && (
+            <div>
+              <label className="text-sm font-medium text-ink/70">Please specify your department</label>
+              <textarea
+                required
+                rows={3}
+                className="mt-1 w-full rounded-lg border border-black/10 px-3 py-2 text-sm outline-none focus:border-primary"
+                value={form.department_other}
+                onChange={(e) => setForm({ ...form, department_other: e.target.value })}
+              />
+            </div>
+          )}
           <div>
             <label className="text-sm font-medium text-ink/70">Password</label>
             <input

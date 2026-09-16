@@ -20,6 +20,7 @@ class User(Base):
     phone = Column(String(20))
     password_hash = Column(String(255), nullable=False)
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=False)
+    department_other = Column(String(255))
     role = Column(Enum(UserRole, name="user_role"), default=UserRole.user, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

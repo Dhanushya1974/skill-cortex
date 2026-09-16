@@ -134,6 +134,18 @@ def verify_payment(
         ),
     )
 
+    notify(
+        db,
+        user=booking.user,
+        type_=NotificationType.payment_notification,
+        booking_id=booking.id,
+        subject="Payment Received - Skill Cortex",
+        message=(
+            f"Hi {booking.user.name}, you have paid Rs.{payment.amount} for '{booking.webinar.title}' "
+            f"on Skill Cortex. Payment reference: {payment.razorpay_payment_id}."
+        ),
+    )
+
     admins = db.query(User).filter(User.role == UserRole.admin).all()
     for admin in admins:
         notify(
